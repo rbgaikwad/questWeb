@@ -29,19 +29,25 @@ public class MainController {
 
 	@PostMapping("/registerUser")
 	public ResponseEntity<User> addUser(@RequestBody User user) throws UserAlreadyExistException {
-		try {
 			User newUser = userService.addUser(user);
 			return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+	}
+	
+	@PostMapping("/createAddress/{userId}")
+	public ResponseEntity<Address> createAddress(@PathVariable(value = "userId") Integer userId, @RequestBody Address address) {
+		try {
+			Address createUserAddress = userService.createAddress(userId, address);
+			return new ResponseEntity<>(createUserAddress, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	
-	@PutMapping("/setAddress/{userId}")
-	public ResponseEntity<Address> setAddress(@PathVariable(value = "userId") Integer userId, @RequestBody Address address) {
+	@PutMapping("/updateAddress/{address_id}")
+	public ResponseEntity<Address> updateAddress(@PathVariable(value = "address_id") long address_id, @RequestBody Address address) {
 		try {
-			Address setAddress = userService.setAddress(userId, address);
-			return new ResponseEntity<>(setAddress, HttpStatus.CREATED);
+			Address updateUserAddress = userService.updateUserAddress(address_id, address);
+			return new ResponseEntity<>(updateUserAddress, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
