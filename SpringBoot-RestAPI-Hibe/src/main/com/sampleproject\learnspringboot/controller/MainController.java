@@ -54,7 +54,6 @@ public class MainController {
 	}
 
 	@GetMapping("/getAll")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<User>> getAllUsers() {
 		List<User> responseListUsers = userService.listAllUsers();
 		return new ResponseEntity<>(responseListUsers, HttpStatus.OK);
