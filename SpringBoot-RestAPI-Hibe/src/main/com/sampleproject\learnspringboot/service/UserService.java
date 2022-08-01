@@ -9,9 +9,14 @@ import com.sampleproject.learnspringboot.model.Address;
 import com.sampleproject.learnspringboot.model.User;
 
 public interface UserService extends UserDetailsService {
-	
+
 	User addUser(User user) throws UserAlreadyExistException;
+
 	List<User> listAllUsers();
+
 	void deleteUserById(Integer Id);
-	Address setAddress(Integer userId, Address address);
+
+	Address createAddress(Integer userId, Address address);
+
+	Address updateUserAddress(long address_id, Address address);
 }
