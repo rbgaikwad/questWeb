@@ -9,25 +9,28 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "address")
 public class Address {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long address_id;
-	
+
 	private Integer house_no;
 	private String street_add;
 	private String state;
 	private String country;
 	private String pincode;
-	
-	private User user;
-	
-	public User getUser() {
-		return user;
+
+	private Integer userId;
+
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public Address() {
 	}
 
 	public Address(long address_id, Integer house_no, String street_add, String state, String country, String pincode) {
@@ -88,5 +91,4 @@ public class Address {
 		this.pincode = pincode;
 	}
 
-	
 }
