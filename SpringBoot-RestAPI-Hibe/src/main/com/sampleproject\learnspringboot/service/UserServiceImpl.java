@@ -15,33 +15,28 @@ import com.sampleproject.learnspringboot.repository.AddressRepository;
 import com.sampleproject.learnspringboot.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService{
-	
+public class UserServiceImpl implements UserService {
+
 	@Autowired
 	private UserRepository userRepo;
 
 	@Autowired
 	private AddressRepository addressRepo;
-	
+
 	@Override
 	public User addUser(User user) throws UserAlreadyExistException {
-		
-		//let's check if user already registered in the system
-		if(checkIfUserExist(user.getEmail())) {
+
+		// let's check if user already registered in the system
+		if (checkIfUserExist(user.getEmail())) {
 			throw new UserAlreadyExistException("User already exists for this email");
 		}
-		
 		User newUser = userRepo.save(user);
-		//List<String> roles = new ArrayList<>();
-		//roles.add("USER");
-		//user.setRoles(roles);
-		//user.setPassword(passwordEncoder.encode(user.getPassword()));
-		 return newUser;
+		return newUser;
 	}
-	
+
 	public boolean checkIfUserExist(String email) {
-        return userRepo.findByEmail(email) != null ? true : false;
-    }
+		return userRepo.findByEmail(email) != null ? true : false;
+	}
 
 	@Override
 	public List<User> listAllUsers() {
@@ -59,14 +54,27 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public Address setAddress(Integer userId, Address address) {
+	public Address createAddress(Integer userId, Address address) {
 		Optional<User> user = userRepo.findByUserId(userId);
-		if(user.isPresent()) {
-			address.setUser(user.get());
+		if (user.isPresent()) {
+			address.setUserId(user.get().getUserId());
 			return addressRepo.save(address);
 		}
 		return null;
 	}
 
+	@Override
+	public Address updateUserAddress(long address_id, Address address) {
+		Optional<Address> existingAddress = addressRepo.findById(address_id);
+		if (existingAddress.isPresent()) {
+			existingAddress.get().setHouse_no(address.getHouse_no());
+			existingAddress.get().setStreet_add(address.getStreet_add());
+			existingAddress.get().setState(address.getState());
+			existingAddress.get().setCountry(address.getCountry());
+			existingAddress.get().setPincode(address.getPincode());
+			return addressRepo.save(existingAddress.get());
+		}
+		return null;
+	}
 
 }
