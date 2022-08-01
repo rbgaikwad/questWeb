@@ -1,7 +1,6 @@
 package com.sampleproject.learnspringboot.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,27 +14,27 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable{
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer userId;
-	
+
 	private String firstName;
 	private String lastName;
-	
+
 	private String email;
 	private String mobile_no;
 	private String password;
 	private String roles;
-	
+
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "usrAddr_fk", referencedColumnName = "userId")
-	Set<Address> address = new HashSet<>();
-	
+	@JoinColumn(name = "userId")
+	Set<Address> address;
+
 	public User() {
-		
+
 	}
 
 	public User(Integer userId, String firstName, String lastName, String email, String mobile_no, String password,
@@ -49,7 +48,6 @@ public class User implements Serializable{
 		this.password = password;
 		this.roles = roles;
 	}
-
 
 	// getter and setter methods
 	public Integer getUserId() {
@@ -105,16 +103,22 @@ public class User implements Serializable{
 	}
 
 	public void setRoles(String roles) {
-		//roles.stream().filter(Objects::nonNull).collect(Collectors.toList());
+		// roles.stream().filter(Objects::nonNull).collect(Collectors.toList());
 		this.roles = roles;
 	}
 
+	public Set<Address> getAddress() {
+		return address;
+	}
+
+	public void setAddress(Set<Address> address) {
+		this.address = address;
+	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
 				+ ", mobile_no=" + mobile_no + ", password=" + password + ", roles=" + roles + "]";
 	}
-	
-	
+
 }
